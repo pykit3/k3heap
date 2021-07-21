@@ -1,0 +1,6 @@
+_extends: gh-config
+
+repository:
+  description: k3heap is a binary min heap implemented with reference
+  homepage: https://blog.openacid.com
+  topics: python, heap
