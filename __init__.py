@@ -13,7 +13,7 @@ RefHeap is not thread safe::
     h.push([]) # OK
 """
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __name__ = "k3heap"
 
 from .refheap import (
