@@ -1,8 +1,8 @@
 import doctest
 
-import {{ name }}
+import k3heap
 
 
 def load_tests(loader, tests, ignore):
-    tests.addTests(doctest.DocTestSuite({{ name }}))
+    tests.addTests(doctest.DocTestSuite(k3heap))
     return tests
