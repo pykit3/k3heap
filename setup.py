@@ -14,7 +14,7 @@ setuptools.setup(
     keywords=['python', 'heap'],
     python_requires='>=3.0',
 
-    install_requires=['k3ut~=0.1.15'],
+    install_requires=['k3ut>=0.1.15,<0.2'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
