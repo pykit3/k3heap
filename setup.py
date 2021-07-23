@@ -14,7 +14,7 @@ setuptools.setup(
     keywords=['python', 'heap'],
     python_requires='>=3.0',
 
-    install_requires=['semantic_version~=2.8.5', 'jinja2~=2.11.2', 'PyYAML>=5.3.1,<5.5.0', 'sphinx~=3.3.1', 'k3ut~=0.1.7'],
+    install_requires=['semantic_version~=2.8.5', 'jinja2>=2.11.2,<3.1.0', 'PyYAML>=5.3.1,<5.5.0', 'sphinx~=3.3.1', 'k3ut~=0.1.7'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
