@@ -34,13 +34,11 @@ class NotFound(HeapError):
 
 
 class Node(list):
-
     # node in heap:
     # node[0] is left child
     # node[1] is right child
 
     def __init__(self, userdata):
-
         super(Node, self).__init__([None, None])
 
         self.parent = None
@@ -62,38 +60,36 @@ class Node(list):
         return self.userdata < b.userdata
 
     def __str__(self):
-
         ud_str = str(self.userdata)
 
-        mark = '> '
+        mark = "> "
         width = 16
         item_width = width + len(mark)
 
-        ud_str = ('{0:>' + str(width) + '}').format(ud_str)
+        ud_str = ("{0:>" + str(width) + "}").format(ud_str)
         ud_str = ud_str + mark
 
         if self == [None, None]:
             return ud_str
 
         if self[0] is None:
-            sl = ['-']
+            sl = ["-"]
         else:
-            sl = str(self[0]).split('\n')
+            sl = str(self[0]).split("\n")
         if self[1] is None:
-            sr = ['-']
+            sr = ["-"]
         else:
-            sr = str(self[1]).split('\n')
+            sr = str(self[1]).split("\n")
 
-        sl = [' ' * item_width + x for x in sl]
-        sr = [' ' * item_width + x for x in sr]
+        sl = [" " * item_width + x for x in sl]
+        sr = [" " * item_width + x for x in sr]
         sl[0] = ud_str + sl[0][item_width:]
 
-        return '\n'.join(sl) + '\n' + '\n'.join(sr)
+        return "\n".join(sl) + "\n" + "\n".join(sr)
 
 
 # wrapper of primitive type
 class Primitive(object):
-
     def __init__(self, obj):
         self.data = obj
 
@@ -105,7 +101,6 @@ class Primitive(object):
 
 
 class RefHeap(object):
-
     def __init__(self, iterable=()):
         self.size = 0
         self.root = None
@@ -125,7 +120,7 @@ class RefHeap(object):
         obj_id = id(obj)
 
         if obj_id in self.userdata_map:
-            raise Duplicate('object is already in heap')
+            raise Duplicate("object is already in heap")
 
         node = Node(obj)
         self.userdata_map[obj_id] = node
@@ -164,7 +159,6 @@ class RefHeap(object):
         return self.remove_node(node)
 
     def remove_node(self, node):
-
         rst = self.return_val(node)
 
         last = self.node_at(self.size)
@@ -180,28 +174,25 @@ class RefHeap(object):
 
     def sift(self, obj):
         if isinstance(obj, primitive_types):
-            raise ValueError('primitive type does not support sift, just replace it')
+            raise ValueError("primitive type does not support sift, just replace it")
 
         node = self._get_object_node(obj)
         return self._sift(node)
 
     def _get_object_node(self, obj):
         if id(obj) not in self.userdata_map:
-            raise NotFound('object is not found in heap, id:' + str(obj))
+            raise NotFound("object is not found in heap, id:" + str(obj))
 
         node = self.userdata_map[id(obj)]
         return node
 
     def _sift(self, node):
-
         x = node.userdata
         xid = id(x)
 
         # upwards
         up = False
-        while (node.parent is not None
-               and x < node.parent.userdata):
-
+        while node.parent is not None and x < node.parent.userdata:
             # move parent down to node
             self.userdata_map[id(node.parent.userdata)] = node
             node.userdata = node.parent.userdata
@@ -217,7 +208,6 @@ class RefHeap(object):
 
         # downwards
         while True:
-
             _min = node.min_child()
             if _min is None or not (_min.userdata < x):
                 break
@@ -253,14 +243,13 @@ class RefHeap(object):
         return rst
 
     def node_at(self, idx):
-
         # idx starts from 1
 
         p = self.root
         lvl = index_level(idx)
 
-        for l in range(lvl - 1, -1, -1):
-            lr = (idx >> l) & 1
+        for level in range(lvl - 1, -1, -1):
+            lr = (idx >> level) & 1
             p = p[lr]
 
         return p

@@ -13,22 +13,22 @@ RefHeap is not thread safe::
     h.push([]) # OK
 """
 
-__version__ = "0.1.6"
-__name__ = "k3heap"
+from importlib.metadata import version
+
+__version__ = version("k3heap")
 
 from .refheap import (
     Duplicate,
     Empty,
     NotFound,
     RefHeap,
-
     index_level,
 )
+
 __all__ = [
     "Duplicate",
     "Empty",
     "NotFound",
     "RefHeap",
-
     "index_level",
 ]
