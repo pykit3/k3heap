@@ -1,7 +1,6 @@
 # k3heap
 
 [![Action-CI](https://github.com/pykit3/k3heap/actions/workflows/python-package.yml/badge.svg)](https://github.com/pykit3/k3heap/actions/workflows/python-package.yml)
-[![Build Status](https://travis-ci.com/pykit3/k3heap.svg?branch=master)](https://travis-ci.com/pykit3/k3heap)
 [![Documentation Status](https://readthedocs.org/projects/k3heap/badge/?version=stable)](https://k3heap.readthedocs.io/en/stable/?badge=stable)
 [![Package](https://img.shields.io/pypi/pyversions/k3heap)](https://pypi.org/project/k3heap)
 
