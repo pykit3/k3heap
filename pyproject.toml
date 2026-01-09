@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "k3heap"
-version = "0.1.8"
+version = "0.1.9"
 description = "Binary min heap implemented with reference"
 readme = "README.md"
 license = {text = "MIT"}
