@@ -1,12 +1,14 @@
 import random
 import unittest
+
 import k3ut
+
 import k3heap
 
 dd = k3ut.dd
 
 
-class X(object):
+class X:
     def __init__(self, val):
         self.x = val
 
@@ -113,7 +115,7 @@ class TestRefHeap(unittest.TestCase):
                 dd("init heap:")
                 dd(str(h))
 
-                dd("replace {i}-th item {v} to {repl}".format(i=i, v=case[i], repl=repl))
+                dd(f"replace {i}-th item {case[i]} to {repl}")
 
                 arr[i].x = repl
                 h.sift(arr[i])
@@ -140,7 +142,7 @@ class TestRefHeap(unittest.TestCase):
             dd("init heap:")
             dd(str(h))
 
-            dd("remove {i}-th item {v}".format(i=i, v=case[i]))
+            dd(f"remove {i}-th item {case[i]}")
 
             h.remove(arr[i])
 
@@ -189,7 +191,7 @@ class TestRefHeap(unittest.TestCase):
         self.assertEqual(1, h.pop().x)
 
     def test_dup_all_type(self):
-        for inp in [[1], {1: 2}, set([3])]:
+        for inp in [[1], {1: 2}, {3}]:
             h = k3heap.RefHeap()
             h.push(inp)
             self.assertRaises(k3heap.Duplicate, h.push, inp)

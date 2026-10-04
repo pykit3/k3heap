@@ -39,7 +39,7 @@ class Node(list):
     # node[1] is right child
 
     def __init__(self, userdata):
-        super(Node, self).__init__([None, None])
+        super().__init__([None, None])
 
         self.parent = None
         self.userdata = userdata
@@ -89,7 +89,7 @@ class Node(list):
 
 
 # wrapper of primitive type
-class Primitive(object):
+class Primitive:
     def __init__(self, obj):
         self.data = obj
 
@@ -100,7 +100,7 @@ class Primitive(object):
         return self.data < b.data
 
 
-class RefHeap(object):
+class RefHeap:
     def __init__(self, iterable=()):
         self.size = 0
         self.root = None
@@ -174,7 +174,8 @@ class RefHeap(object):
 
     def sift(self, obj):
         if isinstance(obj, primitive_types):
-            raise ValueError("primitive type does not support sift, just replace it")
+            # ValueError is the public contract of sift(); TypeError would break callers that catch it.
+            raise ValueError("primitive type does not support sift, just replace it")  # noqa: TRY004
 
         node = self._get_object_node(obj)
         return self._sift(node)

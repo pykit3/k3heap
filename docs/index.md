@@ -36,13 +36,16 @@ print(h.pop())  # 8
 h = k3heap.RefHeap([3, 1, 4, 1, 5])
 print(h.pop_all())  # [1, 1, 3, 4, 5]
 
+
 # Use with custom objects (must support < comparison)
 class Task:
     def __init__(self, priority, name):
         self.priority = priority
         self.name = name
+
     def __lt__(self, other):
         return self.priority < other.priority
+
 
 h = k3heap.RefHeap()
 t1 = Task(3, "low")
