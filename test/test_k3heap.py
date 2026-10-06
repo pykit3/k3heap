@@ -218,3 +218,61 @@ class TestRefHeap(unittest.TestCase):
             rst.append(h.pop())
 
         self.assertEqual(sorted(case), rst)
+
+    def test_sift_primitive(self):
+        h = k3heap.RefHeap([1])
+        self.assertRaises(ValueError, h.sift, 1)
+
+    def test_push_again_after_pop_or_remove(self):
+        x = X(1)
+        h = k3heap.RefHeap([x])
+        self.assertIs(x, h.pop())
+
+        h.push(x)
+        self.assertIs(x, h.get())
+
+        h.remove(x)
+        h.push(x)
+        self.assertIs(x, h.pop())
+        self.assertEqual(0, h.size)
+
+    def test_random_ops_with_duplicates_and_sift(self):
+        # Keys come from a small range, so most pushes add a duplicate key.
+        ops = ("push", "push", "push", "push_dup", "pop", "remove", "sift")
+
+        for seed in range(20):
+            rnd = random.Random(seed)
+            h = k3heap.RefHeap()
+            live = []
+
+            for _ in range(200):
+                op = rnd.choice(ops)
+                if op == "push":
+                    x = X(rnd.randint(0, 9))
+                    h.push(x)
+                    live.append(x)
+                elif not live:
+                    continue
+                elif op == "push_dup":
+                    x = rnd.choice(live)
+                    self.assertRaises(k3heap.Duplicate, h.push, x)
+                elif op == "pop":
+                    x = h.pop()
+                    self.assertEqual(min(o.x for o in live), x.x)
+                    live.remove(x)
+                elif op == "remove":
+                    x = rnd.choice(live)
+                    self.assertIs(x, h.remove(x))
+                    live.remove(x)
+                else:
+                    x = rnd.choice(live)
+                    x.x = rnd.randint(0, 9)
+                    h.sift(x)
+
+                self.assertEqual(len(live), h.size)
+                if live:
+                    self.assertEqual(min(o.x for o in live), h.get().x)
+
+            rst = h.pop_all()
+            self.assertEqual(sorted(o.x for o in live), [o.x for o in rst])
+            self.assertEqual(sorted(map(id, live)), sorted(map(id, rst)))
