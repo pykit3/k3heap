@@ -167,6 +167,19 @@ class TestRefHeap(unittest.TestCase):
         self.assertRaises(k3heap.NotFound, h.remove, a)
         self.assertRaises(k3heap.NotFound, h.remove, X(0))
 
+    def test_remove_last_node(self):
+        a, b, c = [1], [2], [3]
+        h = k3heap.RefHeap([a, b, c])
+        h.remove(c)
+
+        self.assertRaises(k3heap.NotFound, h.remove, None)
+        self.assertEqual([a, b], h.pop_all())
+
+        h = k3heap.RefHeap([a])
+        h.remove(a)
+
+        self.assertRaises(k3heap.NotFound, h.remove, None)
+
     def test_pop_all(self):
         case = [6, 4, 1, 7, 8, 3, 2]
         dd("case:", case)

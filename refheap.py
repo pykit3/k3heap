@@ -165,7 +165,8 @@ class RefHeap:
 
         self.swap(node, last)
         self.remove_last(last)
-        self._sift(node)
+        if node is not last:
+            self._sift(node)
 
         if self.size == 0:
             self.root = None
