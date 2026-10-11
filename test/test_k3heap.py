@@ -212,8 +212,10 @@ class TestRefHeap(unittest.TestCase):
     def test_push_compare_error(self):
         # A push whose comparison raises leaves the heap as it was.
         h = k3heap.RefHeap([1])
+        before = {k: id(v) for k, v in h.userdata_map.items()}
         self.assertRaises(TypeError, h.push, None)
-        self.assertEqual(1, len(h.userdata_map))
+        after = {k: id(v) for k, v in h.userdata_map.items()}
+        self.assertEqual(before, after)
         self.assertEqual([1], h.pop_all())
 
         class RaiseOnRoot:
@@ -224,8 +226,10 @@ class TestRefHeap(unittest.TestCase):
                 return True
 
         h = k3heap.RefHeap(range(1, 8))
+        before = {k: id(v) for k, v in h.userdata_map.items()}
         self.assertRaises(TypeError, h.push, RaiseOnRoot())
-        self.assertEqual(7, len(h.userdata_map))
+        after = {k: id(v) for k, v in h.userdata_map.items()}
+        self.assertEqual(before, after)
         self.assertEqual([1, 2, 3, 4, 5, 6, 7], h.pop_all())
 
     def test_pop_from_empty(self):
@@ -243,7 +247,8 @@ class TestRefHeap(unittest.TestCase):
 
     def test_rand(self):
         n = 500
-        case = [random.randint(0, n) for x in range(n * 2)]
+        rnd = random.Random(0)
+        case = [rnd.randint(0, n) for x in range(n * 2)]
         h = k3heap.RefHeap(case)
         rst = []
         for x in range(len(case)):
