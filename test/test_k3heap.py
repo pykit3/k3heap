@@ -209,6 +209,25 @@ class TestRefHeap(unittest.TestCase):
             h.push(inp)
             self.assertRaises(k3heap.Duplicate, h.push, inp)
 
+    def test_push_compare_error(self):
+        # A push whose comparison raises leaves the heap as it was.
+        h = k3heap.RefHeap([1])
+        self.assertRaises(TypeError, h.push, None)
+        self.assertEqual(1, len(h.userdata_map))
+        self.assertEqual([1], h.pop_all())
+
+        class RaiseOnRoot:
+            # Less than every item but the root 1, so a push moves up two levels before the comparison raises.
+            def __lt__(self, b):
+                if b.data == 1:
+                    raise TypeError("cannot compare with 1")
+                return True
+
+        h = k3heap.RefHeap(range(1, 8))
+        self.assertRaises(TypeError, h.push, RaiseOnRoot())
+        self.assertEqual(7, len(h.userdata_map))
+        self.assertEqual([1, 2, 3, 4, 5, 6, 7], h.pop_all())
+
     def test_pop_from_empty(self):
         h = k3heap.RefHeap()
 

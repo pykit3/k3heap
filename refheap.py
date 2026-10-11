@@ -138,7 +138,13 @@ class RefHeap:
         p[_child_lr_idx(pos)] = node
         node.parent = p
 
-        self._sift(node)
+        try:
+            self._sift(node)
+        except BaseException:
+            # A new leaf only moves up, and _sift() compares before it moves, so the heap is as before the push
+            # except for the new last node.
+            self.remove_last(node)
+            raise
 
     def get(self):
         self.assert_not_empty()
@@ -193,14 +199,18 @@ class RefHeap:
         xid = id(x)
 
         # upwards
-        up = False
-        while node.parent is not None and x < node.parent.userdata:
+        # Compare before moving any node, so that a comparison that raises leaves the heap unchanged.
+        top = node
+        while top.parent is not None and x < top.parent.userdata:
+            top = top.parent
+
+        up = top is not node
+        while node is not top:
             # move parent down to node
             self.userdata_map[id(node.parent.userdata)] = node
             node.userdata = node.parent.userdata
 
             node = node.parent
-            up = True
 
         node.userdata = x
         self.userdata_map[xid] = node
