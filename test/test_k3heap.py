@@ -313,3 +313,17 @@ class TestRefHeap(unittest.TestCase):
             rst = h.pop_all()
             self.assertEqual(sorted(o.x for o in live), [o.x for o in rst])
             self.assertEqual(sorted(map(id, live)), sorted(map(id, rst)))
+
+    def test_node_at(self):
+        a, b, c = X(1), X(2), X(3)
+        h = k3heap.RefHeap([a, b, c])
+
+        got = [h.node_at(idx).userdata for idx in (1, 2, 3)]
+        self.assertEqual([a, b, c], got)
+
+        # An index outside 1..size names no node.
+        for idx in (-1, 0, 4, 8):
+            self.assertRaises(IndexError, h.node_at, idx)
+
+        h = k3heap.RefHeap()
+        self.assertRaises(IndexError, h.node_at, 1)

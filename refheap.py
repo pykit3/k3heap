@@ -256,6 +256,8 @@ class RefHeap:
 
     def node_at(self, idx):
         # idx starts from 1
+        if not 1 <= idx <= self.size:
+            raise IndexError(f"heap index {idx} is out of range 1..{self.size}")
 
         p = self.root
         lvl = index_level(idx)
