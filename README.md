@@ -19,7 +19,7 @@ RefHeap is not thread safe::
 
     x = []
     h.push(x)
-    h.push(x)  # ValueError
+    h.push(x)  # k3heap.Duplicate
     h.push([]) # OK
 
 
